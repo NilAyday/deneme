@@ -24,7 +24,9 @@ for epoch in [100, 499]:
     plt.legend()
     plt.savefig("./data/fig1_epoch"+str(epoch)+".png")
 '''
-
+print(x)
+print("----")
+print(b[0])
 plt.plot(x*100, [b[x_]['train_acc'] for x_ in x], marker='o', label="Train accuracy")
 plt.plot(x*100, [b[x_]['val_acc'] for x_ in x], marker='s', label="Test accuracy")
 plt.plot(x*100, [b[x_]['true_train_acc'] for x_ in x], color='red', marker='v', 
