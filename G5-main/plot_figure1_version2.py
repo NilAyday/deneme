@@ -27,9 +27,11 @@ for epoch in [100, 499]:
 print(x)
 print("----")
 print(b[0])
-plt.plot(x*100, [b[x_]['train_acc'] for x_ in x], marker='o', label="Train accuracy")
-plt.plot(x*100, [b[x_]['val_acc'] for x_ in x], marker='s', label="Test accuracy")
-plt.plot(x*100, [b[x_]['true_train_acc'] for x_ in x], color='red', marker='v', 
+print("---")
+print([b[x_]['train_acc'] for x_ in range(len(x))])
+plt.plot(x, [b[x_]['train_acc'] for x_ in range(len(x))], marker='o', label="Train accuracy")
+plt.plot(x, [b[x_]['val_acc'] for x_ in range(len(x))], marker='s', label="Test accuracy")
+plt.plot(x, [b[x_]['true_train_acc'] for x_ in range(len(x))], color='red', marker='v', 
          label="Train accuracy w.r.t. true labels")
 plt.xlabel("Fraction of labels corrupted (%)")
 plt.ylabel("Accuracy (%)")
