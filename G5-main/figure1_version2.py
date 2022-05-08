@@ -36,7 +36,7 @@ y_test = np.squeeze(y_test)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
-num_epochs = 2
+num_epochs = 200
 lr = 0.02
 num_data = 50000
 batch_size = 100
@@ -68,7 +68,8 @@ for alpha in alphas:
                   loss='sparse_categorical_crossentropy',
                   metrics=['accuracy'])
     
-    LeNet.fit(X_train, y_train_crpt, validation_data=(X_test, y_test), epochs=num_epochs)
+    es = tf.keras.callbacks.EarlyStopping(monitor='val_loss', mode='min', verbose=1)
+    LeNet.fit(X_train, y_train_crpt, validation_data=(X_test, y_test), epochs=num_epochs, callbacks=[es])
 
     history['train_acc'].append(LeNet.evaluate(X_train, y_train_crpt)[1])
     history['true_train_acc'].append(LeNet.evaluate(X_train, y_train)[1])
