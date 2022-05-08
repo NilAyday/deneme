@@ -11,7 +11,7 @@ with open('./data/figure1_stats.pickle', 'rb') as handle:
     b = pickle.load(handle)
 
 x = list(b.keys())
-for epoch in [100, 499]:
+for epoch in [0, 200]:
     train_acc = [b[x_]['train_acc'][epoch] for x_ in x]
     true_train_acc = [b[x_]['true_train_acc'][epoch] for x_ in x]
     val_acc = [b[x_]['val_acc'][epoch] for x_ in x]
