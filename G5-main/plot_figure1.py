@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 with open('./data/figure1_stats.pickle', 'rb') as handle:
     b = pickle.load(handle)
 
+print(b)
 x = list(b.keys())
 for epoch in [0, 2]:
     train_acc = [b[x_]['train_acc'][epoch] for x_ in x]
