@@ -20,7 +20,7 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
     W_0=[]
     for layer in model.children():
         try:
-            weights = np.array(layer.weight.data)
+            weights = np.array(layer.weight.cpu().data)
             W_0.append(weights)
         except AttributeError:
             pass
@@ -54,7 +54,7 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
         W_T=[]
         for layer in model.children():
             try:
-                weights = np.array(layer.weight.data)
+                weights = np.array(layer.weight.cpu().data)
                 W_T.append(weights)
             except AttributeError:
                 pass
