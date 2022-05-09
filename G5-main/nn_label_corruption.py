@@ -33,8 +33,8 @@ train_acc_crpt_list = []
 test_acc_list = []
 train_acc_list = []
 
-#corruption_fraction_list = np.array([0.0, 0.1])
-corruption_fraction_list = np.linspace(0,0.9,10)
+corruption_fraction_list = np.array([0.0, 0.1])
+#corruption_fraction_list = np.linspace(0,0.9,10)
 
 print("Corruption Fraction List =", corruption_fraction_list)
 
@@ -66,10 +66,10 @@ for corruption_fraction in corruption_fraction_list:
     print("Number of model parameters:", model.count_params())
     
     # simple early stopping
-    #es = tf.keras.callbacks.EarlyStopping(monitor='val_loss', mode='min', verbose=1)
+    es = tf.keras.callbacks.EarlyStopping(monitor='val_loss', mode='min', verbose=1)
     
     #history = model.fit(x_train, y_train_crpt, validation_data=(x_val, y_val), epochs=200, callbacks=[es])
-    history = model.fit(x_train, y_train_crpt, validation_data=(x_val, y_val), epochs=2)
+    history = model.fit(x_train, y_train_crpt, validation_data=(x_val, y_val), epochs=2, callbacks=[es])
     
     pd.DataFrame(history.history).to_csv("train_history.txt", mode='a', sep='\t')
     
