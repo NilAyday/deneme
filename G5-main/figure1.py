@@ -46,7 +46,7 @@ random.shuffle(indices_test)
 stats = {}
 for alpha in alphas:
     print("alpha", alpha)
-    dataset_train = perturbed_dataloader.PerturbedDataset(ds_train, alpha, size = num_data)
+    dataset_train = perturbed_dataloader.PerturbedDataset(ds_train, alpha, size = num_data,enforce_false = False)
     dataloader_train = torch.utils.data.DataLoader(dataset_train, batch_size=batch_size, shuffle=True)
     dataset_test = torch.utils.data.Subset(ds_test, indices_test[:10000])
     dataloader_test = torch.utils.data.DataLoader(dataset_test, batch_size=300, shuffle=False)
