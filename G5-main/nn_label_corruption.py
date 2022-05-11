@@ -33,8 +33,8 @@ train_acc_crpt_list = []
 test_acc_list = []
 train_acc_list = []
 
-corruption_fraction_list = np.array([0.0, 0.1])
-#corruption_fraction_list = np.linspace(0,0.9,10)
+#corruption_fraction_list = np.array([0.0, 0.1])
+corruption_fraction_list = np.linspace(0,0.9,10)
 
 print("Corruption Fraction List =", corruption_fraction_list)
 
