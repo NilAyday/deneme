@@ -16,7 +16,7 @@ class LeNet(nn.Module):
 
         self.conv1 = nn.Conv2d(in_channels = 1, out_channels = 64, kernel_size = 3, stride = 1, padding = 0)
         self.conv2 = nn.Conv2d(in_channels = 64, out_channels = 32, kernel_size = 3, stride = 1, padding = 0)
-        self.linear1 = nn.Linear(512, 256)
+        #self.linear1 = nn.Linear(256, 256)
         self.linear2 = nn.Linear(256, 10)
         self.relu = nn.ReLU()
 
@@ -27,8 +27,8 @@ class LeNet(nn.Module):
         x = self.relu(x)
 
         x = x.reshape(x.shape[0], -1)
-        x = self.linear1(x)
-        x = self.relu(x)
+        #x = self.linear1(x)
+        #x = self.relu(x)
         x = self.linear2(x)
         return x
 
