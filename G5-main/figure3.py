@@ -15,10 +15,9 @@ class LeNet(nn.Module):
     def __init__(self):
         super(LeNet, self).__init__()
 
-        self.conv1 = nn.Conv2d(in_channels = 1, out_channels = 64, kernel_size = 5, stride = 2, padding = 0)
-        #torch.nn.init.uniform_(self.conv1.weight, a=0.0, b=1.0)
-        self.conv2 = nn.Conv2d(in_channels = 64, out_channels = 32, kernel_size = 5, stride = 2, padding = 0)
-        self.linear1 = nn.Linear(512, 256)
+        self.conv1 = nn.Conv2d(in_channels = 1, out_channels = 64, kernel_size = 3, stride = 1, padding = 0)
+        self.conv2 = nn.Conv2d(in_channels = 64, out_channels = 128, kernel_size = 3, stride = 1, padding = 0)
+        self.linear1 = nn.Linear(73728, 256)
         self.linear2 = nn.Linear(256, 10)
         self.relu = nn.ReLU()
 
@@ -60,7 +59,7 @@ batch_size = 10
 stats = {}
 for alpha in alphas:
     print("alpha", alpha)
-    ds_train = perturbed_dataloader.PerturbedDataset(ds_train, alpha, size = num_data)
+    ds_train = perturbed_dataloader.PerturbedDataset(ds_train, alpha, size = num_data,enforce_false=False)
     dl_train = torch.utils.data.DataLoader(ds_train, batch_size=batch_size)
     dl_test = torch.utils.data.DataLoader(ds_test, batch_size=batch_size)
 
