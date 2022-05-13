@@ -50,8 +50,8 @@ def initialize_weights(m):
 ds_train = datasets.load_MNIST(True)
 ds_test = datasets.load_MNIST(False)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-num_epochs = 10
-lr = 0.005
+num_epochs = 2
+lr = 0.02
 alphas = [0,0.1,0.5,1]
 num_data = 3000
 batch_size = 10
