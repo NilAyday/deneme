@@ -4,7 +4,7 @@ import copy
 import torch
 import torch.nn as nn
 import matplotlib.pyplot as plt
-from src import datasets, perturbed_dataloader, training
+from src import datasets, perturbed_dataloader, training_fig3
 import os
 import numpy as np
 
@@ -51,7 +51,7 @@ def initialize_weights(m):
 ds_train = datasets.load_MNIST(True)
 ds_test = datasets.load_MNIST(False)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-num_epochs = 50
+num_epochs = 1
 lr = 0.005
 alphas = [0,0.1,0.5,1]
 num_data = 3000
@@ -61,7 +61,6 @@ stats = {}
 for alpha in alphas:
     print("alpha", alpha)
     ds_train = perturbed_dataloader.PerturbedDataset(ds_train, alpha, size = num_data)
-    print(len(ds_train))
     dl_train = torch.utils.data.DataLoader(ds_train, batch_size=batch_size)
     dl_test = torch.utils.data.DataLoader(ds_test, batch_size=batch_size)
 
@@ -73,7 +72,7 @@ for alpha in alphas:
     loss = torch.nn.CrossEntropyLoss()
 
     
-    s = training.train(model, optimizer, loss, dl_train, dl_test, num_epochs, device=device)
+    s = training_fig3.train(model, optimizer, loss, dl_train, dl_test, num_epochs, device=device)
     stats[alpha] = s
     
     file= os.path.join(os.path.join(os.path.dirname(__file__),"data"), 'figure1_stats.pickle')
