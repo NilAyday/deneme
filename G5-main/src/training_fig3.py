@@ -83,7 +83,7 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
         W_T = torch.cat([w.view(-1) for w in W_T])
         #for i in range(len(W_0)):
          #   distance+=np.linalg.norm(W_0[i]-W_T[i])**2
-        distance=np.linalg.norm(W_0-W_T)
+        distance=np.linalg.norm(W_0.cpu()-W_T.cpu())
         print(distance)
         pbar.set_description('train acc: %5.2f, true train acc: %5.2f, val acc: %5.2f' % (train_acc, true_train_acc, val_acc))
 
