@@ -81,7 +81,7 @@ class ResNet(nn.Module):
 
 num_epochs = 100
 lr = 0.02
-num_data = 2000
+num_data = 10000
 batch_size = 1
 
 ds_train = datasets.load_CIFAR10(True)
