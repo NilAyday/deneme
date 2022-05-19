@@ -112,7 +112,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = ResNet(ResidualBlock, [2, 2, 2]).to(device)
 model.apply(initialize_weights)
 
-#sv1=get_Jacobian_svd(model,dl_train)
+sv1=get_Jacobian_svd(model,dl_train)
 
 optimizer = torch.optim.SGD(model.parameters(), lr = lr)
 loss = torch.nn.CrossEntropyLoss()
@@ -120,7 +120,7 @@ loss = torch.nn.CrossEntropyLoss()
 s = training.train(model, optimizer, loss, dl_train, dl_test, num_epochs, device=device)
 s_pertub = training.train(model, optimizer, loss, dl_train_pertub, dl_test, num_epochs, device=device)
 
-#sv2=get_Jacobian_svd(model,dl_train)
+sv2=get_Jacobian_svd(model,dl_train)
 
 
 
@@ -138,7 +138,7 @@ plot_loghist(sv2,100,label="2")
 plt.legend()
 plt.show()
 '''
-#sv=[sv1,sv2]
+sv=[sv1,sv2]
 history=[s,s_pertub]
 
 file= os.path.join(os.path.join(os.path.dirname(__file__)), 'figure4c_stats.pickle')
