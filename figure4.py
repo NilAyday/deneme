@@ -118,9 +118,16 @@ optimizer = torch.optim.SGD(model.parameters(), lr = lr)
 loss = torch.nn.CrossEntropyLoss()
 
 s = training.train(model, optimizer, loss, dl_train, dl_test, num_epochs, device=device)
+sv2=get_Jacobian_svd(model,dl_train)
+
+model = ResNet(ResidualBlock, [2, 2, 2]).to(device)
+model.apply(initialize_weights)
+optimizer = torch.optim.SGD(model.parameters(), lr = lr)
+loss = torch.nn.CrossEntropyLoss()
+
 s_pertub = training.train(model, optimizer, loss, dl_train_pertub, dl_test, num_epochs, device=device)
 
-sv2=get_Jacobian_svd(model,dl_train)
+
 
 
 
