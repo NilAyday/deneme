@@ -7,7 +7,7 @@ import torch.nn as nn
 import torch.nn.functional as func
 import matplotlib.pyplot as plt
 import numpy as np
-from src import datasets, proj_utils, training
+from src import datasets, proj_utils, training, perturbed_dataloader
 import os
 from svd import get_Jacobian_svd
 
@@ -91,10 +91,10 @@ def initialize_weights(m):
         nn.init.normal_(m.weight.data)
         nn.init.constant_(m.bias.data, 0)
 
-num_epochs = 500
+num_epochs = 2
 lr = 0.005
-num_data = 10000
-batch_size = 100
+num_data = 100
+batch_size = 10
 
 ds_train = datasets.load_CIFAR10(True)
 ds_test = datasets.load_CIFAR10(False)
@@ -105,20 +105,21 @@ ds_test = torch.utils.data.Subset(ds_test, indices)
 
 dl_train = torch.utils.data.DataLoader(ds_train, batch_size=batch_size)
 dl_test = torch.utils.data.DataLoader(ds_test, batch_size=batch_size)
+dl_train_pertub = perturbed_dataloader.PerturbedDataset(ds_train, 0.3, size = num_data,enforce_false = False)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = ResNet(ResidualBlock, [2, 2, 2]).to(device)
 model.apply(initialize_weights)
 
-sv1=get_Jacobian_svd(model,dl_train)
+#sv1=get_Jacobian_svd(model,dl_train)
 
 optimizer = torch.optim.SGD(model.parameters(), lr = lr)
 loss = torch.nn.CrossEntropyLoss()
 
 s = training.train(model, optimizer, loss, dl_train, dl_test, num_epochs, device=device)
+s_pertub = training.train(model, optimizer, loss, dl_train_pertub, dl_test, num_epochs, device=device)
 
-
-sv2=get_Jacobian_svd(model,dl_train)
+#sv2=get_Jacobian_svd(model,dl_train)
 
 
 
@@ -136,7 +137,8 @@ plot_loghist(sv2,100,label="2")
 plt.legend()
 plt.show()
 '''
-sv=[sv1,sv2]
+#sv=[sv1,sv2]
+history=[s,s_pertub]
 
 file= os.path.join(os.path.join(os.path.dirname(__file__)), 'figure4c_stats.pickle')
 with open(file, 'wb') as handle:
@@ -144,4 +146,4 @@ with open(file, 'wb') as handle:
     
 file= os.path.join(os.path.join(os.path.dirname(__file__)), 'figure4a_stats.pickle')
 with open(file, 'wb') as handle:
-    pickle.dump(s, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    pickle.dump(history, handle, protocol=pickle.HIGHEST_PROTOCOL)
