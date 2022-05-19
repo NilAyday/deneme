@@ -106,7 +106,7 @@ ds_test = torch.utils.data.Subset(ds_test, indices)
 dl_train = torch.utils.data.DataLoader(ds_train, batch_size=batch_size)
 dl_test = torch.utils.data.DataLoader(ds_test, batch_size=batch_size)
 dl_train_pertub = perturbed_dataloader.PerturbedDataset(datasets.load_CIFAR10(True), 0.3, size = num_data,enforce_false = False)
-dataloader_train = torch.utils.data.DataLoader(dl_train_pertub, batch_size=batch_size, shuffle=True)
+dl_train_pertub = torch.utils.data.DataLoader(dl_train_pertub, batch_size=batch_size, shuffle=True)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = ResNet(ResidualBlock, [2, 2, 2]).to(device)
