@@ -3,7 +3,7 @@ import torchvision
 import random
 
 class PerturbedDataset(torch.utils.data.DataLoader):
-    def __init__(self, dataset, num_noise, size = -1, num_classes = 10, enforce_false = True,persistent_workers=True):
+    def __init__(self, dataset, num_noise, size = -1, num_classes = 10, enforce_false = True,persistent_workers=False):
         size = len(dataset) if size == -1 else size
         if num_noise <= 1:
             num_noise = int(size * num_noise)
