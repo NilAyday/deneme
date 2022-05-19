@@ -17,7 +17,7 @@ file= os.path.join(os.path.join(os.path.dirname(__file__)), 'figure4a_stats.pick
 with open(file, 'rb') as handle:
     b = pickle.load(handle)
 
-x = list(b.keys())
+#x = list(b.keys())
 
 #print(b['loss'])
 #print(np.array(b['loss']))
