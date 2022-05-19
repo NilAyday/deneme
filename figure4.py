@@ -78,10 +78,22 @@ class ResNet(nn.Module):
         out = out.view(out.size(0), -1)
         out = self.fc(out)
         return out
+        
+def initialize_weights(m):
+    if isinstance(m, nn.Conv2d):
+        nn.init.normal_(m.weight.data)
+        if m.bias is not None:
+            nn.init.constant_(m.bias.data, 0)
+    elif isinstance(m, nn.BatchNorm2d):
+        nn.init.constant_(m.weight.data, 1)
+        nn.init.constant_(m.bias.data, 0)
+    elif isinstance(m, nn.Linear):
+        nn.init.normal_(m.weight.data)
+        nn.init.constant_(m.bias.data, 0)
 
-num_epochs = 100
-lr = 0.02
-num_data = 5000
+num_epochs = 200
+lr = 0.005
+num_data = 1000
 batch_size = 1
 
 ds_train = datasets.load_CIFAR10(True)
@@ -96,6 +108,7 @@ dl_test = torch.utils.data.DataLoader(ds_test, batch_size=batch_size)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = ResNet(ResidualBlock, [2, 2, 2]).to(device)
+model.apply(initialize_weights)
 
 sv1=get_Jacobian_svd(model,dl_train)
 
@@ -103,7 +116,7 @@ optimizer = torch.optim.SGD(model.parameters(), lr = lr)
 loss = torch.nn.CrossEntropyLoss()
 
 s = training.train(model, optimizer, loss, dl_train, dl_test, num_epochs, device=device)
-#print(s)
+
 
 sv2=get_Jacobian_svd(model,dl_train)
 
@@ -128,3 +141,7 @@ sv=[sv1,sv2]
 file= os.path.join(os.path.join(os.path.dirname(__file__)), 'figure4c_stats.pickle')
 with open(file, 'wb') as handle:
     pickle.dump(sv, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    
+file= os.path.join(os.path.join(os.path.dirname(__file__)), 'figure4a_stats.pickle')
+with open(file, 'wb') as handle:
+    pickle.dump(s, handle, protocol=pickle.HIGHEST_PROTOCOL)
