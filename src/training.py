@@ -91,7 +91,10 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
         history['val_acc'].append(val_acc)
 
         history['distance'].append(distance)
-        history['loss'].append(math.sqrt(running_loss))
-    print(history['train_acc'])
-    print(history['val_acc'])
+        loss=loss.cpu().detach().numpy()
+        print(loss)
+        history['loss'].append(loss)
+    
+    #print(history['train_acc'])
+    #print(history['val_acc'])
     return history
