@@ -91,10 +91,10 @@ def initialize_weights(m):
         nn.init.normal_(m.weight.data)
         nn.init.constant_(m.bias.data, 0)
 
-num_epochs = 2
+num_epochs = 600
 lr = 0.005
-num_data = 100
-batch_size = 10
+num_data = 10000
+batch_size = 100
 
 ds_train = datasets.load_CIFAR10(True)
 ds_test = datasets.load_CIFAR10(False)
