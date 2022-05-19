@@ -8,7 +8,7 @@ def plot_loghist(x, bins,label):
     logbins = np.logspace(np.log10(bins[0]),np.log10(bins[-1]),len(bins))
     plt.hist(x, bins=logbins,alpha=0.5,label=label)
     plt.xscale('log')
-    plt.yscale('log')
+    #plt.yscale('log')
 
 file= os.path.join(os.path.join(os.path.dirname(__file__)), 'figure4c_stats.pickle')
 with open(file, 'rb') as handle:
