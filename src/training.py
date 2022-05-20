@@ -2,6 +2,7 @@ import torch
 from tqdm import tqdm
 import numpy as np
 import math
+from pytorchtools import EarlyStopping
 
 def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu'):
     model = model.to(device)
@@ -95,6 +96,12 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
         print(loss)
         history['loss'].append(loss)
     
+        early_stopping(valid_loss, model)
+        
+        if early_stopping.early_stop:
+            print("Early stopping")
+            break
+            
     #print(history['train_acc'])
     #print(history['val_acc'])
     return history
