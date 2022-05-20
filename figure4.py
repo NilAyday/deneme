@@ -91,12 +91,13 @@ def initialize_weights(m):
         nn.init.normal_(m.weight.data)
         nn.init.constant_(m.bias.data, 0)
 
-num_epochs = 600
+num_epochs = 5
 lr = 0.005
-num_data = 10000
-batch_size = 100
+num_data = 100
+batch_size = 10
 
 ds_train = datasets.load_CIFAR10(True)
+ds_train_pertub=datasets.load_CIFAR10(True)
 ds_test = datasets.load_CIFAR10(False)
 
 indices = torch.arange(num_data)
@@ -105,8 +106,11 @@ ds_test = torch.utils.data.Subset(ds_test, indices)
 
 dl_train = torch.utils.data.DataLoader(ds_train, batch_size=batch_size)
 dl_test = torch.utils.data.DataLoader(ds_test, batch_size=batch_size)
-dl_train_pertub = perturbed_dataloader.PerturbedDataset(datasets.load_CIFAR10(True), 0.3, size = num_data,enforce_false = False)
-dl_train_pertub = torch.utils.data.DataLoader(dl_train_pertub, batch_size=batch_size, shuffle=True)
+
+dl_train_pertub_1 = perturbed_dataloader.PerturbedDataset(ds_train_pertub, 0.3, size = num_data,enforce_false = False)
+dl_train_pertub_1 = torch.utils.data.DataLoader(dl_train_pertub_1, batch_size=batch_size, shuffle=True)
+dl_train_pertub_2 = perturbed_dataloader.PerturbedDataset(ds_train_pertub, 0.5, size = num_data,enforce_false = False)
+dl_train_pertub_2 = torch.utils.data.DataLoader(dl_train_pertub_2, batch_size=batch_size, shuffle=True)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = ResNet(ResidualBlock, [2, 2, 2]).to(device)
@@ -125,9 +129,14 @@ model.apply(initialize_weights)
 optimizer = torch.optim.SGD(model.parameters(), lr = lr)
 loss = torch.nn.CrossEntropyLoss()
 
-s_pertub = training.train(model, optimizer, loss, dl_train_pertub, dl_test, num_epochs, device=device)
+s_pertub_1 = training.train(model, optimizer, loss, dl_train_pertub_1, dl_test, num_epochs, device=device)
 
+model = ResNet(ResidualBlock, [2, 2, 2]).to(device)
+model.apply(initialize_weights)
+optimizer = torch.optim.SGD(model.parameters(), lr = lr)
+loss = torch.nn.CrossEntropyLoss()
 
+s_pertub_2 = training.train(model, optimizer, loss, dl_train_pertub_2, dl_test, num_epochs, device=device)
 
 
 
@@ -146,7 +155,7 @@ plt.legend()
 plt.show()
 '''
 sv=[sv1,sv2]
-history=[s,s_pertub]
+history=[s,s_pertub_1,s_pertub_2]
 
 file= os.path.join(os.path.join(os.path.dirname(__file__)), 'figure4c_stats.pickle')
 with open(file, 'wb') as handle:
