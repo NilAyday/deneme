@@ -51,7 +51,7 @@ plt.legend()
 #plt.show()
 file= os.path.join(os.path.join(os.path.dirname(__file__)), 'fig4a')
 plt.savefig(file+".png")
-
+plt.clf()
 plt.hist(np.array(s['loss']),bins=50,alpha=0.5,range=(1.5,3),label="clean data")
 plt.hist(np.array(s_pertub_2['loss']),bins=50,alpha=0.5,range=(1.5,3),label="corrupted data")
 plt.legend()
