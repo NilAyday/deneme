@@ -45,8 +45,8 @@ for x_ in x:
 
 #plot_loghist(loss,100,label="At initialization")
 #plot_loghist(sv2,100,label="After training")
-plt.hist(np.array(s['loss']),bins=50,alpha=0.5,range=(0,5),label="clean data")
-plt.hist(np.array(s_pertub['loss']),bins=50,range=(0,5),label="corrupted data")
+plt.hist(np.array(s['loss']),bins=50,alpha=0.5,range=(1.5,3),label="clean data")
+plt.hist(np.array(s_pertub['loss']),bins=50,alpha=0.5,range=(1.5,3),label="corrupted data")
 plt.legend()
 plt.show()
 file= os.path.join(os.path.join(os.path.dirname(__file__)), 'fig4a')
