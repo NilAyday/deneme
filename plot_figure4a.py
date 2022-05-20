@@ -48,6 +48,6 @@ for x_ in x:
 plt.hist(np.array(s['loss']),bins=50,alpha=0.5,range=(1.5,3),label="clean data")
 plt.hist(np.array(s_pertub['loss']),bins=50,alpha=0.5,range=(1.5,3),label="corrupted data")
 plt.legend()
-plt.show()
+#plt.show()
 file= os.path.join(os.path.join(os.path.dirname(__file__)), 'fig4a')
 plt.savefig(file+".png")
