@@ -98,7 +98,7 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
         print(loss)
         history['loss'].append(loss)
     
-        early_stopping(valid_loss, model)
+        early_stopping(loss, model)
         
         if early_stopping.early_stop:
             print("Early stopping")
