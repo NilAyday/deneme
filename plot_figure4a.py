@@ -17,7 +17,7 @@ file= os.path.join(os.path.join(os.path.dirname(__file__)), 'figure4a_stats.pick
 with open(file, 'rb') as handle:
     b = pickle.load(handle)
 
-[s,s_pertub]=b
+[s,s_pertub_1,s_pertub_2]=b
 
 #print(b['loss'])
 #print(np.array(b['loss']))
@@ -46,8 +46,15 @@ for x_ in x:
 #plot_loghist(loss,100,label="At initialization")
 #plot_loghist(sv2,100,label="After training")
 plt.hist(np.array(s['loss']),bins=50,alpha=0.5,range=(1.5,3),label="clean data")
-plt.hist(np.array(s_pertub['loss']),bins=50,alpha=0.5,range=(1.5,3),label="corrupted data")
+plt.hist(np.array(s_pertub_1['loss']),bins=50,alpha=0.5,range=(1.5,3),label="corrupted data")
 plt.legend()
 #plt.show()
 file= os.path.join(os.path.join(os.path.dirname(__file__)), 'fig4a')
+plt.savefig(file+".png")
+
+plt.hist(np.array(s['loss']),bins=50,alpha=0.5,range=(1.5,3),label="clean data")
+plt.hist(np.array(s_pertub_2['loss']),bins=50,alpha=0.5,range=(1.5,3),label="corrupted data")
+plt.legend()
+#plt.show()
+file= os.path.join(os.path.join(os.path.dirname(__file__)), 'fig4b')
 plt.savefig(file+".png")
