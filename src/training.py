@@ -7,6 +7,8 @@ from pytorchtools import EarlyStopping
 def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu'):
     model = model.to(device)
     
+    early_stopping = EarlyStopping(patience=20, verbose=True)
+    
     print('train(): model=%s, opt=%s(lr=%f), epochs=%d, device=%s\n' % \
           (type(model).__name__, type(optimizer).__name__,
            optimizer.param_groups[0]['lr'], epochs, device))
