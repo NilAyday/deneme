@@ -106,7 +106,7 @@ random.shuffle(indices_test)
 #ds_train = torch.utils.data.Subset(ds_train, indices)
 #ds_test = torch.utils.data.Subset(ds_test, indices)
 
-dataset_train_30 = perturbed_dataloader.PerturbedDataset(ds_train, 0.1, size = num_data,enforce_false = False)
+dataset_train_30 = perturbed_dataloader.PerturbedDataset(ds_train, 0.05, size = num_data,enforce_false = False)
 dataloader_train_30 = torch.utils.data.DataLoader(dataset_train_30, batch_size=batch_size, shuffle=True)
 dataset_train_50 = perturbed_dataloader.PerturbedDataset(ds_train, 0.9, size = num_data,enforce_false = False)
 dataloader_train_50 = torch.utils.data.DataLoader(dataset_train_50, batch_size=batch_size, shuffle=True)
@@ -124,13 +124,13 @@ loss = torch.nn.CrossEntropyLoss()
 
 s_30 = training.train(model, optimizer, loss, dataloader_train_30, dataloader_test, num_epochs, device=device)
 
-model = ResNet(ResidualBlock, [2, 2, 2]).to(device)
-model.apply(initialize_weights)
+#model = ResNet(ResidualBlock, [2, 2, 2]).to(device)
+#model.apply(initialize_weights)
 
-s_50 = training.train(model, optimizer, loss, dataloader_train_50, dataloader_test, num_epochs, device=device)
+#s_50 = training.train(model, optimizer, loss, dataloader_train_50, dataloader_test, num_epochs, device=device)
 
 
-history=[s_30,s_50]
+history=[s_30,s_30]
 
 #file= os.path.join(os.path.join(os.path.dirname(__file__)), 'figure4c_stats.pickle')
 #with open(file, 'wb') as handle:
