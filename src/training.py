@@ -23,7 +23,7 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
     W_0=[]
     for layer in model.children():
         try:
-            weights = np.array(layer.weight.data)
+            weights = layer.weight.data
             W_0.append(weights)
         except AttributeError:
             pass
@@ -63,7 +63,7 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
         W_T=[]
         for layer in model.children():
             try:
-                weights = np.array(layer.weight.data)
+                weights = layer.weight.data
                 W_T.append(weights)
             except AttributeError:
                 pass
@@ -88,8 +88,10 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
         val_acc = num_val_correct / num_val_examples
 
         distance=0
-        for i in range(len(W_0)):
-            distance+=np.linalg.norm(W_0[i]-W_T[i])**2
+        W_0 = torch.cat([w.view(-1) for w in W_0])
+        W_T = torch.cat([w.view(-1) for w in W_T])
+     
+        distance=np.linalg.norm(W_0.cpu()-W_T.cpu())
 
         pbar.set_description('train acc: %5.2f, true train acc: %5.2f, val acc: %5.2f' % (train_acc, true_train_acc, val_acc))
 
@@ -97,8 +99,8 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
         history['true_train_acc'].append(true_train_acc)
         history['val_acc'].append(val_acc)
 
-        history['distance'].append(math.sqrt(distance))
-        #history['loss'].append(math.sqrt(running_loss))
+        history['distance'].append(distance)
+        #history['loss'].append(math.sqrunning_loss))
         if early_stopping.early_stop:
             print("Early stopping")
             break
