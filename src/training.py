@@ -62,6 +62,9 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
             except AttributeError:
                 pass
         
+        loss=loss.cpu().detach().numpy()
+        print(loss)
+        history['loss'].append(loss)
 
         train_acc = num_train_correct / num_train_examples
         true_train_acc = num_train_correct_true / num_train_examples
@@ -94,10 +97,8 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
         history['val_acc'].append(val_acc)
 
         history['distance'].append(distance)
+        
         loss=loss.cpu().detach().numpy()
-        print(loss)
-        history['loss'].append(loss)
-    
         early_stopping(loss, model)
         
         if early_stopping.early_stop:
