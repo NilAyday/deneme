@@ -130,7 +130,7 @@ model.apply(initialize_weights)
 s_50 = training.train(model, optimizer, loss, dataloader_train_50, dataloader_test, num_epochs, device=device)
 
 
-history=[s_30,s_30]
+history=[s_30,s_50]
 
 #file= os.path.join(os.path.join(os.path.dirname(__file__)), 'figure4c_stats.pickle')
 #with open(file, 'wb') as handle:
