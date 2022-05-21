@@ -2,6 +2,7 @@ import torch
 from tqdm import tqdm
 import numpy as np
 import math
+from pytorchtools import EarlyStopping
 
 def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu'):
     model = model.to(device)
