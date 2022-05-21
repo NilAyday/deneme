@@ -53,10 +53,10 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
                 history['loss_clean'].append(loss_clean)
             else:
                 loss = loss_fn(yhat, y)
-                loss=loss.cpu().detach().numpy()
-                history['loss'].append(loss)
+                loss_cor=loss.cpu().detach().numpy()
+                history['loss'].append(loss_cor)
            
-
+            loss = loss_fn(yhat, y)
             loss.backward()
             optimizer.step()
 
