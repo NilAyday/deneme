@@ -45,8 +45,17 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
             y = batch[1].to(device)
             y_true = batch[2].to(device)
             yhat = model(x)
-            loss = loss_fn(yhat, y)
-            loss_clean = loss_fn(yhat, y_true)
+            loss_clean=0
+            loss=0
+            if y==y_true:
+                loss_clean = loss_fn(yhat, y)
+                loss_clean=loss_clean.cpu().detach().numpy()
+                history['loss_clean'].append(loss_clean)
+            else:
+                loss = loss_fn(yhat, y)
+                loss=loss.cpu().detach().numpy()
+                history['loss'].append(loss)
+           
 
             loss.backward()
             optimizer.step()
@@ -56,10 +65,7 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
             num_train_correct_true += (torch.max(yhat, 1)[1] == y_true).sum().item()
             num_train_examples += x.shape[0]
 
-        loss=loss.cpu().detach().numpy()
-        loss_clean=loss_clean.cpu().detach().numpy()
-        history['loss'].append(loss)
-        history['loss_clean'].append(loss_clean)
+     
 
         W_T=[]
         for layer in model.children():
