@@ -45,8 +45,7 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
             y = batch[1].to(device)
             y_true = batch[2].to(device)
             yhat = model(x)
-            loss_clean=0
-            loss=0
+         
             if y==y_true:
                 loss_clean = loss_fn(yhat, y)
                 loss_clean=loss_clean.cpu().detach().numpy()
