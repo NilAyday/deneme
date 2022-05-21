@@ -102,6 +102,9 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
 
         history['distance'].append(distance)
         #history['loss'].append(math.sqrunning_loss))
+        
+        early_stopping(loss, model)
+        
         if early_stopping.early_stop:
             print("Early stopping")
             break
