@@ -107,7 +107,7 @@ ds_test = torch.utils.data.Subset(ds_test, indices)
 dl_train = torch.utils.data.DataLoader(ds_train, batch_size=batch_size)
 dl_test = torch.utils.data.DataLoader(ds_test, batch_size=batch_size)
 
-dl_train_pertub_1 = perturbed_dataloader.PerturbedDataset(ds_train_pertub, 0.1, size = num_data,enforce_false = False)
+dl_train_pertub_1 = perturbed_dataloader.PerturbedDataset(ds_train_pertub, 0.3, size = num_data,enforce_false = False)
 dl_train_pertub_1 = torch.utils.data.DataLoader(dl_train_pertub_1, batch_size=batch_size, shuffle=True)
 dl_train_pertub_2 = perturbed_dataloader.PerturbedDataset(ds_train_pertub, 0.9, size = num_data,enforce_false = False)
 dl_train_pertub_2 = torch.utils.data.DataLoader(dl_train_pertub_2, batch_size=batch_size, shuffle=True)
