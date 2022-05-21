@@ -124,10 +124,10 @@ loss = torch.nn.CrossEntropyLoss()
 
 s_30 = training.train(model, optimizer, loss, dataloader_train_30, dataloader_test, num_epochs, device=device)
 
-#model = ResNet(ResidualBlock, [2, 2, 2]).to(device)
-#model.apply(initialize_weights)
+model = ResNet(ResidualBlock, [2, 2, 2]).to(device)
+model.apply(initialize_weights)
 
-#s_50 = training.train(model, optimizer, loss, dataloader_train_50, dataloader_test, num_epochs, device=device)
+s_50 = training.train(model, optimizer, loss, dataloader_train_50, dataloader_test, num_epochs, device=device)
 
 
 history=[s_30,s_30]
