@@ -47,11 +47,11 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
             yhat = model(x)
          
             if y==y_true:
-                loss = loss_fn(yhat, y_true)
+                loss = loss_fn(yhat, y)
                 loss_clean=loss.cpu().detach().numpy()
                 history['loss_clean'].append(loss_clean)
             else:
-                loss = loss_fn(yhat, y_true)
+                loss = loss_fn(yhat, y)
                 loss_cor=loss.cpu().detach().numpy()
                 history['loss'].append(loss_cor)
            
