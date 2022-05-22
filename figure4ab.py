@@ -93,7 +93,7 @@ def initialize_weights(m):
 
 num_epochs = 100
 lr = 0.005
-num_data = 1000
+num_data = 10000
 batch_size = 1
 
 ds_train = datasets.load_CIFAR10(True)
