@@ -13,7 +13,7 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
           (type(model).__name__, type(optimizer).__name__,
            optimizer.param_groups[0]['lr'], epochs, device))
     
-    loss_fn_red=torch.nn.CrossEntropyLoss(reduction=none)
+    loss_fn_red=torch.nn.CrossEntropyLoss(reduction='none')
     
     history = {}
     history['train_acc'] = []
