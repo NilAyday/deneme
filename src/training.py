@@ -48,6 +48,7 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
             y_true = batch[2].to(device)
             yhat = model(x)
          
+            '''
             if y==y_true:
                 loss = loss_fn_red(yhat, y)
                 loss_clean=loss.cpu().detach().numpy()
@@ -56,7 +57,17 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
                 loss = loss_fn_red(yhat, y_true)
                 loss_cor=loss.cpu().detach().numpy()
                 history['loss'].append(loss_cor)
-           
+            '''
+            for i in range(len(x)):
+                if y[i]==y_true[i]:
+                    loss = loss_fn(yhat[i], y[i])
+                    loss_clean=loss.cpu().detach().numpy()
+                    history['loss_clean'].append(loss_clean)
+                else:
+                    loss = loss_fn_red(yhat[i], y_true[i])
+                    loss_cor=loss.cpu().detach().numpy()
+                    history['loss'].append(loss_cor)
+                
             loss = loss_fn(yhat, y)
             loss.backward()
             optimizer.step()
