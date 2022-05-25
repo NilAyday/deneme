@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from src import datasets, training, perturbed_dataloader
 import os
+import torchvision
 
 
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
@@ -91,13 +92,46 @@ def initialize_weights(m):
         nn.init.normal_(m.weight.data)
         nn.init.constant_(m.bias.data, 0)
 
+class SubLoader(torchvision.datasets.CIFAR10):
+    def __init__(self, *args, exclude_list=[], **kwargs):
+        super(SubLoader, self).__init__(*args, **kwargs)
+
+        if exclude_list == []:
+            return
+
+        if self.train:
+            labels = np.array(self.targets)
+            exclude = np.array(exclude_list).reshape(1, -1)
+            mask = ~(labels.reshape(-1, 1) == exclude).any(axis=1)
+
+            self.data = self.data[mask]
+            self.targets = labels[mask].tolist()
+        else:
+            labels = np.array(self.targets)
+            exclude = np.array(exclude_list).reshape(1, -1)
+            mask = ~(labels.reshape(-1, 1) == exclude).any(axis=1)
+
+            self.data = self.data[mask]
+            self.targets = labels[mask].tolist()
+
 num_epochs = 50
 lr = 0.005
 num_data = 50000
 batch_size = 128
 
-ds_train = datasets.load_CIFAR10(True)
-ds_test = datasets.load_CIFAR10(False)
+#ds_train = datasets.load_CIFAR10(True)
+#ds_test = datasets.load_CIFAR10(False)
+
+
+ds_train=SubLoader(exclude_list=[2,3,4,5,6,7,8,9,10],root="./datasets", train=True, download=True, transform = torchvision.transforms.Compose([torchvision.transforms.ToTensor()]))
+ds_test=SubLoader(exclude_list=[2,3,4,5,6,7,8,9,10],root="./datasets", train=False, download=True, transform = torchvision.transforms.Compose([torchvision.transforms.ToTensor()]))
+
+'''
+idx = np.where(ds_train.targets==6)#| (ds_train.targets==2) 
+print(idx)
+ds_train.targets = ds_train.targets[idx]
+ds_train.data = ds_train.data[idx]
+'''
 
 indices_test = [i for i in range(len(ds_test))]
 random.shuffle(indices_test)
@@ -106,9 +140,9 @@ random.shuffle(indices_test)
 #ds_train = torch.utils.data.Subset(ds_train, indices)
 #ds_test = torch.utils.data.Subset(ds_test, indices)
 
-dataset_train_30 = perturbed_dataloader.PerturbedDataset(ds_train, 0.3, size = num_data,enforce_false = False)
+dataset_train_30 = perturbed_dataloader.PerturbedDataset(ds_train, 0.3, size = num_data,num_classes = 2,enforce_false = False)
 dataloader_train_30 = torch.utils.data.DataLoader(dataset_train_30, batch_size=batch_size, shuffle=True)
-dataset_train_50 = perturbed_dataloader.PerturbedDataset(ds_train, 0.5, size = num_data,enforce_false = False)
+dataset_train_50 = perturbed_dataloader.PerturbedDataset(ds_train, 0.5, size = num_data,num_classes = 2,enforce_false = False)
 dataloader_train_50 = torch.utils.data.DataLoader(dataset_train_50, batch_size=batch_size, shuffle=True)
 dataset_test = torch.utils.data.Subset(ds_test, indices_test[:10000])
 dataloader_test = torch.utils.data.DataLoader(dataset_test, batch_size=300, shuffle=False)
@@ -122,14 +156,14 @@ model.apply(initialize_weights)
 optimizer = torch.optim.SGD(model.parameters(), lr = lr)
 loss = torch.nn.CrossEntropyLoss()
 
-s_30 = training.train(model, optimizer, loss, dataloader_train_30, dataloader_test, num_epochs, device=device)
+s_30 = training.train(model, optimizer, loss, dataloader_train_30, dataloader_test, num_epochs, device=device,patience=10)
 
 model = ResNet(ResidualBlock, [2, 2, 2]).to(device)
 model.apply(initialize_weights)
 optimizer = torch.optim.SGD(model.parameters(), lr = lr)
 loss = torch.nn.CrossEntropyLoss()
 
-s_50 = training.train(model, optimizer, loss, dataloader_train_50, dataloader_test, num_epochs, device=device)
+s_50 = training.train(model, optimizer, loss, dataloader_train_50, dataloader_test, num_epochs, device=device,patience=10)
 
 
 history=[s_30,s_50]
