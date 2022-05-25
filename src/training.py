@@ -125,6 +125,6 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
         
         if early_stopping.early_stop:
             print("Early stopping")
-            #break
+            break
 
     return history
