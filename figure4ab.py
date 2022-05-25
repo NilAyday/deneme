@@ -114,7 +114,7 @@ class SubLoader(torchvision.datasets.CIFAR10):
             self.data = self.data[mask]
             self.targets = labels[mask].tolist()
 
-num_epochs = 10
+num_epochs = 100
 lr = 0.005
 num_data = 50000
 batch_size = 128
