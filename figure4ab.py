@@ -123,8 +123,8 @@ batch_size = 128
 #ds_test = datasets.load_CIFAR10(False)
 
 
-ds_train=SubLoader(exclude_list=[2,3,4,5,6,7,8,9,10],root="./datasets", train=True, download=True, transform = torchvision.transforms.Compose([torchvision.transforms.ToTensor()]))
-ds_test=SubLoader(exclude_list=[2,3,4,5,6,7,8,9,10],root="./datasets", train=False, download=True, transform = torchvision.transforms.Compose([torchvision.transforms.ToTensor()]))
+ds_train=SubLoader(exclude_list=[4,5,6,7,8,9,10],root="./datasets", train=True, download=True, transform = torchvision.transforms.Compose([torchvision.transforms.ToTensor()]))
+ds_test=SubLoader(exclude_list=[4,5,6,7,8,9,10],root="./datasets", train=False, download=True, transform = torchvision.transforms.Compose([torchvision.transforms.ToTensor()]))
 
 '''
 idx = np.where(ds_train.targets==6)#| (ds_train.targets==2) 
@@ -140,9 +140,9 @@ random.shuffle(indices_test)
 #ds_train = torch.utils.data.Subset(ds_train, indices)
 #ds_test = torch.utils.data.Subset(ds_test, indices)
 num_data=len(ds_train.targets)
-dataset_train_30 = perturbed_dataloader.PerturbedDataset(ds_train, 0.3, size = num_data,num_classes = 2,enforce_false = False)
+dataset_train_30 = perturbed_dataloader.PerturbedDataset(ds_train, 0.3, size = num_data,num_classes = 4,enforce_false = False)
 dataloader_train_30 = torch.utils.data.DataLoader(dataset_train_30, batch_size=batch_size, shuffle=True)
-dataset_train_50 = perturbed_dataloader.PerturbedDataset(ds_train, 0.5, size = num_data,num_classes = 2,enforce_false = False)
+dataset_train_50 = perturbed_dataloader.PerturbedDataset(ds_train, 0.5, size = num_data,num_classes = 4,enforce_false = False)
 dataloader_train_50 = torch.utils.data.DataLoader(dataset_train_50, batch_size=batch_size, shuffle=True)
 dataset_test = torch.utils.data.Subset(ds_test, indices_test[:10000])
 dataloader_test = torch.utils.data.DataLoader(dataset_test, batch_size=300, shuffle=False)
