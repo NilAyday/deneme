@@ -139,7 +139,7 @@ random.shuffle(indices_test)
 #indices = torch.arange(num_data)
 #ds_train = torch.utils.data.Subset(ds_train, indices)
 #ds_test = torch.utils.data.Subset(ds_test, indices)
-
+num_data=len(ds_train.targets)
 dataset_train_30 = perturbed_dataloader.PerturbedDataset(ds_train, 0.3, size = num_data,num_classes = 2,enforce_false = False)
 dataloader_train_30 = torch.utils.data.DataLoader(dataset_train_30, batch_size=batch_size, shuffle=True)
 dataset_train_50 = perturbed_dataloader.PerturbedDataset(ds_train, 0.5, size = num_data,num_classes = 2,enforce_false = False)
