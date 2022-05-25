@@ -117,7 +117,7 @@ class SubLoader(torchvision.datasets.CIFAR10):
 num_epochs = 500
 lr = 0.005
 num_data = 50000
-batch_size = 128
+batch_size = 32
 
 #ds_train = datasets.load_CIFAR10(True)
 #ds_test = datasets.load_CIFAR10(False)
