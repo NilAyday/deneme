@@ -77,9 +77,7 @@ def train(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device='cpu')
             num_train_correct_true += (torch.max(yhat, 1)[1] == y_true).sum().item()
             num_train_examples += x.shape[0]
 
-        print("SIZES")
-        print(len(history['loss_clean']))
-        print(len(history['loss']))
+      
         
         W_T=[]
         for layer in model.children():
