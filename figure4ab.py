@@ -117,14 +117,14 @@ class SubLoader(torchvision.datasets.CIFAR10):
 num_epochs = 500
 lr = 0.005
 num_data = 50000
-batch_size = 8
+batch_size = 16
 
 #ds_train = datasets.load_CIFAR10(True)
 #ds_test = datasets.load_CIFAR10(False)
 
 
-ds_train=SubLoader(exclude_list=[4,5,6,7,8,9,10],root="./datasets", train=True, download=True, transform = torchvision.transforms.Compose([torchvision.transforms.ToTensor()]))
-ds_test=SubLoader(exclude_list=[4,5,6,7,8,9,10],root="./datasets", train=False, download=True, transform = torchvision.transforms.Compose([torchvision.transforms.ToTensor()]))
+ds_train=SubLoader(exclude_list=[3,4,5,6,7,8,9,10],root="./datasets", train=True, download=True, transform = torchvision.transforms.Compose([torchvision.transforms.ToTensor()]))
+ds_test=SubLoader(exclude_list=[3,4,5,6,7,8,9,10],root="./datasets", train=False, download=True, transform = torchvision.transforms.Compose([torchvision.transforms.ToTensor()]))
 
 '''
 idx = np.where(ds_train.targets==6)#| (ds_train.targets==2) 
